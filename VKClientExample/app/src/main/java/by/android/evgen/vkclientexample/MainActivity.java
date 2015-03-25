@@ -30,6 +30,11 @@ public class MainActivity extends ActionBarActivity {
         startActivityForResult(intent, REQUEST_CODE_VK);
     }
 
+    public void onFriendsClick(View view) {
+        Intent intent = new Intent(this, FriendsActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

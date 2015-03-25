@@ -19,6 +19,7 @@
         android:text="Show friends"
         android:id="@+id/friends"
         android:layout_below="@+id/login"
+        android:onClick="onFriendsClick"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
     <Button
