@@ -1,19 +1,31 @@
-package by.android.evgen.vkclientexample;
+package by.android.evgen.vkclientexample.activity;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import by.android.evgen.vkclientexample.Api;
+import by.android.evgen.vkclientexample.R;
+import by.android.evgen.vkclientexample.adapter.VkDialogsAdapter;
+import by.android.evgen.vkclientexample.helper.VkOAuthHelper;
+import by.android.evgen.vkclientexample.listener.RecyclerItemClickListener;
+import by.android.evgen.vkclientexample.model.UserData;
+import by.android.evgen.vkclientexample.model.users.Users;
+import by.android.evgen.vkclientexample.spring.ISpringCallback;
+import by.android.evgen.vkclientexample.spring.SpringParser;
+
 
 public class MainActivity extends ActionBarActivity {
     public static final int REQUEST_CODE_VK = 0;
     private Button mFriends;
     private Button mMessage;
+    private UserData mUserData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +47,39 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
+    public void onShowDialogs(View view) {
+        Intent intent = new Intent(this, DialogsActivity.class);
+        intent.putExtra(DialogsActivity.USER_DATA, mUserData);
+        startActivity(intent);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_VK && resultCode == RESULT_OK)  {
-            Toast.makeText(this, "implement me " + RESULT_OK, Toast.LENGTH_SHORT).show();
-            mFriends.setEnabled(true);
-            mMessage.setEnabled(true);
+            Toast.makeText(this, "You logged in " + RESULT_OK, Toast.LENGTH_SHORT).show();
+
+            new SpringParser().executeInThread(new ISpringCallback() {
+                @Override
+                public void onDataLoadStart() {
+
+                }
+
+                @Override
+                public void onDone(Object dataUser) {
+                    Users user = (Users)dataUser;
+                    mUserData = new UserData(user.response[0].id, user.response[0].first_name, user.response[0].photo_200_orig);
+                    mFriends.setEnabled(true);
+                    mMessage.setEnabled(true);
+                }
+
+                @Override
+                public void onError(Exception e) {
+
+                }
+            }, VkOAuthHelper.sign(Api.USER_GET), Users.class);
+
+
         }
     }
 

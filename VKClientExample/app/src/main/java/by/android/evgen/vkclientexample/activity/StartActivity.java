@@ -1,8 +1,10 @@
-package by.android.evgen.vkclientexample;
+package by.android.evgen.vkclientexample.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+
+import by.android.evgen.vkclientexample.helper.VkOAuthHelper;
 
 /**
  * Created by evgen on 23.03.2015.

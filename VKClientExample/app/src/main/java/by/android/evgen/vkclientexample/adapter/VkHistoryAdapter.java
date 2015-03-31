@@ -2,6 +2,7 @@ package by.android.evgen.vkclientexample.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,20 +11,29 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+
 import by.android.evgen.vkclientexample.R;
-import by.android.evgen.vkclientexample.model.dialog.Items;
+import by.android.evgen.vkclientexample.model.UserData;
+import by.android.evgen.vkclientexample.model.history.Items;
+import by.android.evgen.vkclientexample.model.users.Response;
+
 
 /**
- * Created by evgen on 24.03.2015.
+ * Created by evgen on 29.03.2015.
  */
-public class VkFriendsAdapter extends RecyclerView.Adapter<VkFriendsAdapter.ViewHolder> {
+public class VkHistoryAdapter extends RecyclerView.Adapter<VkHistoryAdapter.ViewHolder> {
 
     private Items[] mData;
     private Context mContext;
+    private UserData mUser;
+    private UserData mUserFrom;
 
-    public VkFriendsAdapter(Context context, Items[] data) {
+    public VkHistoryAdapter(Context context, Items[] data, UserData user, UserData fromUser) {
         mData = data;
         mContext = context;
+        mUser = user;
+        mUserFrom = fromUser;
     }
 
     @Override
@@ -35,15 +45,19 @@ public class VkFriendsAdapter extends RecyclerView.Adapter<VkFriendsAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         Items item = mData[i];
-        viewHolder.name.setText(item.first_name);
-        viewHolder.content.setText(item.last_name);
-        if (item.online) {
-            viewHolder.online.setText("online");
+        viewHolder.content.setText(item.body);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm ");
+        viewHolder.online.setText(dateFormat.format(item.date));
+        Log.d("*************************", mUser.getUser_id() + "*****" + item.from_id);
+        if(mUser.getUser_id().contains(item.from_id)) {
+            viewHolder.name.setText(mUser.getUser_name());
+            final String urlImage = mUser.getUser_image();
+            Picasso.with(mContext).load(urlImage).into(viewHolder.icon);
         } else {
-            viewHolder.online.setText("offline");
+            viewHolder.name.setText(mUserFrom.getUser_name());
+            final String urlImage = mUserFrom.getUser_image();
+            Picasso.with(mContext).load(urlImage).into(viewHolder.icon);
         }
-        final String urlImage = item.photo_200_orig;
-        Picasso.with(mContext).load(urlImage).into(viewHolder.icon);
     }
 
     @Override

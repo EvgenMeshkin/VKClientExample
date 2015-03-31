@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:text="Show message"
         android:id="@+id/message"
+        android:onClick="onShowDialogs"
         android:layout_below="@+id/friends"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />

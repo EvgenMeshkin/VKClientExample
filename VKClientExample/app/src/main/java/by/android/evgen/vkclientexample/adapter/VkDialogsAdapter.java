@@ -2,6 +2,7 @@ package by.android.evgen.vkclientexample.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,20 +11,26 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+
 import by.android.evgen.vkclientexample.R;
 import by.android.evgen.vkclientexample.model.dialog.Items;
+import by.android.evgen.vkclientexample.model.users.Response;
+import by.android.evgen.vkclientexample.model.users.Users;
 
 /**
- * Created by evgen on 24.03.2015.
+ * Created by evgen on 28.03.2015.
  */
-public class VkFriendsAdapter extends RecyclerView.Adapter<VkFriendsAdapter.ViewHolder> {
+public class VkDialogsAdapter extends RecyclerView.Adapter<VkDialogsAdapter.ViewHolder> {
 
     private Items[] mData;
     private Context mContext;
+    private Users mUsers;
 
-    public VkFriendsAdapter(Context context, Items[] data) {
+    public VkDialogsAdapter(Context context, Items[] data, Users users) {
         mData = data;
         mContext = context;
+        mUsers = users;
     }
 
     @Override
@@ -33,17 +40,25 @@ public class VkFriendsAdapter extends RecyclerView.Adapter<VkFriendsAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        Items item = mData[i];
-        viewHolder.name.setText(item.first_name);
-        viewHolder.content.setText(item.last_name);
-        if (item.online) {
-            viewHolder.online.setText("online");
-        } else {
-            viewHolder.online.setText("offline");
+    public void onBindViewHolder(final ViewHolder viewHolder, int i) {
+        final Items item = mData[i];
+//       Users users = new Select().from(Users.class).executeSingle();
+        Response user = null;
+        for (int j = 0; j < mUsers.response.length; j++) {
+            Response value = mUsers.response[j];
+            if (item.message.user_id.contains(value.id)) {
+                user = value;
+            }
         }
-        final String urlImage = item.photo_200_orig;
-        Picasso.with(mContext).load(urlImage).into(viewHolder.icon);
+        if (user != null) {
+            viewHolder.name.setText(user.first_name);
+            final String urlImage = user.photo_200_orig;
+            Picasso.with(mContext).load(urlImage).into(viewHolder.icon);
+        }
+        viewHolder.content.setText(item.message.body);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm ");
+        viewHolder.online.setText(dateFormat.format(item.message.date));
+        viewHolder.main.setTag(user);
     }
 
     @Override
@@ -57,9 +72,11 @@ public class VkFriendsAdapter extends RecyclerView.Adapter<VkFriendsAdapter.View
         private TextView content;
         private TextView online;
         private ImageView icon;
+        private View main;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            main = itemView;
             name = (TextView) itemView.findViewById(android.R.id.title);
             content = (TextView) itemView.findViewById(android.R.id.content);
             online = (TextView) itemView.findViewById(R.id.online);

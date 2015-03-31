@@ -22,7 +22,7 @@
 
     <TextView
         android:id="@android:id/title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="72dip" />
 
@@ -31,7 +31,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#727272"
-        android:layout_alignBottom="@android:id/icon"
-        android:layout_alignLeft="@android:id/title"
-        android:layout_alignStart="@android:id/title" />
+        android:layout_marginLeft="72dip"
+        android:layout_below="@android:id/title"/>
+    <TextView
+        android:id="@+id/online"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+          />
 </RelativeLayout>

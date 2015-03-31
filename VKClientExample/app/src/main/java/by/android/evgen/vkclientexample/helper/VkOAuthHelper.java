@@ -1,4 +1,4 @@
-package by.android.evgen.vkclientexample;
+package by.android.evgen.vkclientexample.helper;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -23,7 +23,7 @@ public class VkOAuthHelper {
     private static String sToken;
 
     public static final String REDIRECT_URL = "https://oauth.vk.com/blank.html";
-    public static final String AUTORIZATION_URL = "https://oauth.vk.com/authorize?client_id=4840146&scope=offline,wall,photos,status&redirect_uri=" + REDIRECT_URL + "&display=touch&response_type=token";
+    public static final String AUTORIZATION_URL = "https://oauth.vk.com/authorize?client_id=4840146&scope=offline,messages,wall,photos,status&redirect_uri=" + REDIRECT_URL + "&display=touch&response_type=token";
     private static final String TAG = VkOAuthHelper.class.getSimpleName();
 
     public static String sign(String url) {
@@ -45,8 +45,6 @@ public class VkOAuthHelper {
             Uri parsedFragment = Uri.parse("http://temp.com?" + fragment);
             String accessToken = parsedFragment.getQueryParameter("access_token");
             if (!TextUtils.isEmpty(accessToken)) {
-                //TODO save sToken to the secure store
-                //TODO create account in account manager
                 Log.d(TAG, "token " + accessToken);
                 sToken = accessToken;
                 callbacks.onSuccess();

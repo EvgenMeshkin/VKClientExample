@@ -1,6 +1,5 @@
-package by.android.evgen.vkclientexample.model;
+package by.android.evgen.vkclientexample.model.dialog;
 
-import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
@@ -29,11 +28,15 @@ public class Items {
     public String online_app;
 
     @Column(name = "online")
-    public String online;
+    public Boolean online;
 
     @Column(name = "online_mobile")
     public String online_mobile;
 
     @Column(name = "lists")
     public String[] lists;
+
+    @Column(name = "message")
+    public Message message;
+
 }

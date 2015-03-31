@@ -1,4 +1,4 @@
-package by.android.evgen.vkclientexample;
+package by.android.evgen.vkclientexample.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -9,6 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import by.android.evgen.vkclientexample.R;
+import by.android.evgen.vkclientexample.helper.VkOAuthHelper;
 
 /**
  * Created by evgen on 23.03.2015.

@@ -1,22 +1,13 @@
-package by.android.evgen.vkclientexample;
+package by.android.evgen.vkclientexample.activity;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.vk.sdk.VKAccessToken;
-import com.vk.sdk.VKScope;
-import com.vk.sdk.VKSdk;
-import com.vk.sdk.VKSdkListener;
-import com.vk.sdk.VKUIHelper;
-import com.vk.sdk.api.VKError;
-import com.vk.sdk.dialogs.VKCaptchaDialog;
+import by.android.evgen.vkclientexample.R;
 
 /**
  * Created by evgen on 22.03.2015.

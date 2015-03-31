@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="100dip"
+        android:layout_height="100dip"
+        android:id="@+id/imageFrom"
+        android:layout_below="@+id/swipe_container"
+        android:layout_alignParentRight="true"
+           android:layout_alignParentBottom="true" />
+
+    <ImageView
+        android:layout_width="100dip"
+        android:layout_height="100dip"
+        android:id="@+id/imageUser"
+        android:layout_below="@+id/swipe_container"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true" />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="50dip"
+        android:id="@+id/editText"
+        android:layout_toLeftOf="@+id/imageFrom"
+        android:layout_toRightOf="@+id/imageUser"
+        android:layout_above="@+id/button" />
+    <TextView
+        android:id="@android:id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dialogs:"
+        android:textSize="30sp"
+        android:layout_gravity="center" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@android:id/title"
+        android:layout_above="@+id/editText">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:id="@+id/friends_view" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="48dip"
+        android:text="Send"
+        android:id="@+id/button"
+        android:layout_alignParentBottom="true"
+        android:onClick="send"
+        android:layout_toRightOf="@+id/imageUser"
+        android:layout_toEndOf="@+id/imageUser" />
+
+
+</RelativeLayout>
