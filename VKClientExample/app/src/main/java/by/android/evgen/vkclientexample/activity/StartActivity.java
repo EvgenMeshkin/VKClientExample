@@ -21,7 +21,7 @@ public class StartActivity extends ActionBarActivity {
         if (VkOAuthHelper.isLogged()) {
             startMainActivity();
         } else {
-            startActivityForResult(new Intent(this, LoginActivity.class), REQUEST_LOGIN);
+            startActivityForResult(new Intent(this, VkLoginActivity.class), REQUEST_LOGIN);
         }
     }
 
@@ -37,7 +37,7 @@ public class StartActivity extends ActionBarActivity {
     }
 
     private void startMainActivity() {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, FriendsActivity.class));
         finish();
     }
 }

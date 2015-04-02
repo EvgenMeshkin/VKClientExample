@@ -44,6 +44,7 @@ public class VkFriendsAdapter extends RecyclerView.Adapter<VkFriendsAdapter.View
         }
         final String urlImage = item.photo_200_orig;
         Picasso.with(mContext).load(urlImage).into(viewHolder.icon);
+        viewHolder.itemView.setTag(item);
     }
 
     @Override
@@ -57,9 +58,11 @@ public class VkFriendsAdapter extends RecyclerView.Adapter<VkFriendsAdapter.View
         private TextView content;
         private TextView online;
         private ImageView icon;
+        private View itemView;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
             name = (TextView) itemView.findViewById(android.R.id.title);
             content = (TextView) itemView.findViewById(android.R.id.content);
             online = (TextView) itemView.findViewById(R.id.online);

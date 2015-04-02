@@ -45,7 +45,8 @@ public class MessageActivity extends ActionBarActivity implements ISpringCallbac
         mUser = (UserData)getIntent().getParcelableExtra(DialogsActivity.USER_DATA);
         ImageView user = (ImageView)findViewById(R.id.imageUser);
         Picasso.with(this).load(mUser.getUser_image()).into(user);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setReverseLayout(true);
         mEdit = (EditText)findViewById(R.id.editText);
         mRecyclerView.setLayoutManager(layoutManager);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
