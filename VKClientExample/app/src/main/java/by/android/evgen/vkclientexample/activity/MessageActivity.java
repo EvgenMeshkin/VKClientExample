@@ -7,9 +7,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -48,6 +50,17 @@ public class MessageActivity extends ActionBarActivity implements ISpringCallbac
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setReverseLayout(true);
         mEdit = (EditText)findViewById(R.id.editText);
+        mEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                String editMessage = mEdit.getText().toString();
+                if (!TextUtils.isEmpty(editMessage)) {
+                    sendMessage(editMessage);
+                    return true;
+                }
+                return false;
+            }
+        });
         mRecyclerView.setLayoutManager(layoutManager);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -77,22 +90,26 @@ public class MessageActivity extends ActionBarActivity implements ISpringCallbac
     public void send(View view) {
         String editMessage = mEdit.getText().toString();
         if (!TextUtils.isEmpty(editMessage)) {
-            new SpringParser().executeInThread(new ISpringCallback() {
-                @Override
-                public void onDataLoadStart() {
-
-                }
-
-                @Override
-                public void onDone(Object data) {
-                    new SpringParser().executeInThread(MessageActivity.this, VkOAuthHelper.sign(Api.HISTORY_GET + mUserFrom.getUser_id()), History.class);
-                }
-
-                @Override
-                public void onError(Exception e) {
-
-                }
-            }, VkOAuthHelper.sign(Api.getSendUrl(mUserFrom.getUser_id(), editMessage)), String.class);
+           sendMessage(editMessage);
         }
+    }
+
+    private void sendMessage(String message) {
+        new SpringParser().executeInThread(new ISpringCallback() {
+            @Override
+            public void onDataLoadStart() {
+
+            }
+
+            @Override
+            public void onDone(Object data) {
+                new SpringParser().executeInThread(MessageActivity.this, VkOAuthHelper.sign(Api.HISTORY_GET + mUserFrom.getUser_id()), History.class);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        }, VkOAuthHelper.sign(Api.getSendUrl(mUserFrom.getUser_id(), message)), String.class);
     }
 }

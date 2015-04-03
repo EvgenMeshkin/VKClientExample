@@ -8,9 +8,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.TabHost;
 
 import by.android.evgen.vkclientexample.Api;
 import by.android.evgen.vkclientexample.R;
+import by.android.evgen.vkclientexample.adapter.VkDialogsAdapter;
 import by.android.evgen.vkclientexample.helper.VkOAuthHelper;
 import by.android.evgen.vkclientexample.adapter.VkFriendsAdapter;
 import by.android.evgen.vkclientexample.listener.RecyclerItemClickListener;
@@ -33,6 +35,9 @@ public class FriendsActivity extends ActionBarActivity implements ISpringCallbac
     public static final String USER_DATA ="user_data";
     private UserData mUserData;
     private UserData mMainUserData;
+    private RecyclerView mRecyclerViewDialogs;
+    private SwipeRefreshLayout mSwipeRefreshLayoutDialogs;
+    private UserData mUserDataDialogs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,19 @@ public class FriendsActivity extends ActionBarActivity implements ISpringCallbac
         mRecyclerView = (RecyclerView)findViewById(R.id.friends_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
+
+        TabHost tabs = (TabHost) findViewById(R.id.tabHost);
+        tabs.setup();
+        TabHost.TabSpec spec = tabs.newTabSpec("tag1");
+        spec.setContent(R.id.tab1);
+        spec.setIndicator("Friends");
+        tabs.addTab(spec);
+        spec = tabs.newTabSpec("tag2");
+        spec.setContent(R.id.tab2);
+        spec.setIndicator("Dialogs");
+        tabs.addTab(spec);
+        tabs.setCurrentTab(0);
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -49,6 +67,18 @@ public class FriendsActivity extends ActionBarActivity implements ISpringCallbac
             }
         });
         new SpringParser().executeInThread(this, VkOAuthHelper.sign(Api.FRIENDS_GET), Result.class);
+
+        mRecyclerViewDialogs = (RecyclerView)findViewById(R.id.dialogs_view);
+        RecyclerView.LayoutManager layoutManagerDialogs = new LinearLayoutManager(this);
+        mRecyclerViewDialogs.setLayoutManager(layoutManagerDialogs);
+        mSwipeRefreshLayoutDialogs = (SwipeRefreshLayout) findViewById(R.id.dialog_container);
+        mSwipeRefreshLayoutDialogs.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                showDialogs();
+            }
+        });
+        showDialogs();
 
     }
 
@@ -75,7 +105,7 @@ public class FriendsActivity extends ActionBarActivity implements ISpringCallbac
                         new RecyclerItemClickListener(FriendsActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Log.d("*************************", view.getTag().toString());
+                                Log.d("**********************", view.getTag().toString());
                                 Items user = (Items)view.getTag();
                                 mUserData = new UserData(user.id, user.first_name, user.photo_200_orig);
                                 Intent intent = new Intent();
@@ -104,4 +134,66 @@ public class FriendsActivity extends ActionBarActivity implements ISpringCallbac
     public void onError(Exception e) {
 
     }
+
+    private void showDialogs() {
+        new SpringParser().executeInThread(new ISpringCallback<Result>() {
+            @Override
+            public void onDataLoadStart() {
+
+            }
+
+            @Override
+            public void onDone(final Result data) {
+                String strId = null;
+                for (int i = 0; i < data.response.items.length; i++) {
+                    strId = strId + data.response.items[i].message.user_id + "," ;
+                }
+                new SpringParser().executeInThread(new ISpringCallback() {
+                    @Override
+                    public void onDataLoadStart() {
+
+                    }
+
+                    @Override
+                    public void onDone(Object dataUser) {
+                        Users user = (Users)dataUser;
+                        //              user.save();
+                        mRecyclerViewDialogs.setAdapter(new VkDialogsAdapter(FriendsActivity.this, data.response.items, user));
+                        mRecyclerViewDialogs.addOnItemTouchListener(
+                                new RecyclerItemClickListener(FriendsActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+                                        Log.d("******************", view.getTag().toString());
+                                        Response user = (Response)view.getTag();
+                                        mUserDataDialogs = new UserData(user.id, user.first_name, user.photo_200_orig);
+                                        Intent intent = new Intent();
+                                        intent.setClass(FriendsActivity.this, MessageActivity.class);
+                                        intent.putExtra(MessageActivity.USER_ID, mUserDataDialogs);
+                                        intent.putExtra(USER_DATA, getIntent().getParcelableExtra(USER_DATA));
+                                        startActivity(intent);
+                                    }
+                                })
+                        );
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                }, VkOAuthHelper.sign(Api.USERS_GET + strId), Users.class);
+
+                if (mSwipeRefreshLayoutDialogs.isRefreshing()) {
+                    mSwipeRefreshLayoutDialogs.setRefreshing(false);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        }, VkOAuthHelper.sign(Api.DIALOG_GET), Result.class);
+
+    }
+
 }

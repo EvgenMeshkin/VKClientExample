@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import by.android.evgen.vkclientexample.R;
 import by.android.evgen.vkclientexample.model.dialog.Items;
@@ -57,6 +59,8 @@ public class VkDialogsAdapter extends RecyclerView.Adapter<VkDialogsAdapter.View
         }
         viewHolder.content.setText(item.message.body);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm ");
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeInMillis(Long.parseLong(item.message.date)/1000);
         viewHolder.online.setText(dateFormat.format(item.message.date));
         viewHolder.main.setTag(user);
     }

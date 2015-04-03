@@ -24,7 +24,7 @@ import by.android.evgen.vkclientexample.spring.SpringParser;
 /**
  * Created by evgen on 28.03.2015.
  */
-public class DialogsActivity extends ActionBarActivity implements ISpringCallback<Result> {
+public class DialogsActivity extends ActionBarActivity {
 
 
     private RecyclerView mRecyclerView;
@@ -43,67 +43,13 @@ public class DialogsActivity extends ActionBarActivity implements ISpringCallbac
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new SpringParser().executeInThread(DialogsActivity.this, VkOAuthHelper.sign(Api.DIALOG_GET), Result.class);
+ //               showDialogs();
             }
         });
-        new SpringParser().executeInThread(this, VkOAuthHelper.sign(Api.DIALOG_GET), Result.class);
-
+//       showDialogs();
     }
 
-    @Override
-    public void onDataLoadStart() {
 
-    }
 
-    @Override
-    public void onDone(final Result data) {
-        String strId = null;
-        for (int i = 0; i < data.response.items.length; i++) {
-            strId = strId + data.response.items[i].message.user_id + "," ;
-        }
-        new SpringParser().executeInThread(new ISpringCallback() {
-            @Override
-            public void onDataLoadStart() {
-
-            }
-
-            @Override
-            public void onDone(Object dataUser) {
-                Users user = (Users)dataUser;
- //              user.save();
-                mRecyclerView.setAdapter(new VkDialogsAdapter(DialogsActivity.this, data.response.items, user));
-                mRecyclerView.addOnItemTouchListener(
-                        new RecyclerItemClickListener(DialogsActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Log.d("*************************", view.getTag().toString());
-                                Response user = (Response)view.getTag();
-                                mUserData = new UserData(user.id, user.first_name, user.photo_200_orig);
-                                Intent intent = new Intent();
-                                intent.setClass(DialogsActivity.this, MessageActivity.class);
-                                intent.putExtra(MessageActivity.USER_ID, mUserData);
-                                intent.putExtra(USER_DATA, getIntent().getParcelableExtra(USER_DATA));
-                                startActivity(intent);
-                            }
-                        })
-                );
-
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
-        }, VkOAuthHelper.sign(Api.USERS_GET + strId), Users.class);
-
-        if (mSwipeRefreshLayout.isRefreshing()) {
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
-    }
-
-    @Override
-    public void onError(Exception e) {
-
-    }
 }
 
