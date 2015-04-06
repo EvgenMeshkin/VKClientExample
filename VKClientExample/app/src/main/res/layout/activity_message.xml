@@ -27,13 +27,7 @@
         android:layout_toLeftOf="@+id/imageFrom"
         android:layout_toRightOf="@+id/imageUser"
         android:layout_above="@+id/button" />
-    <TextView
-        android:id="@android:id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dialogs:"
-        android:textSize="30sp"
-        android:layout_gravity="center" />
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_container"
         android:layout_width="match_parent"

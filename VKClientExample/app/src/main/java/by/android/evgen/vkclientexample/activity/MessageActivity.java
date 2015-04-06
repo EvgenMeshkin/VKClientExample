@@ -44,7 +44,7 @@ public class MessageActivity extends ActionBarActivity implements ISpringCallbac
         mRecyclerView = (RecyclerView)findViewById(R.id.friends_view);
         ImageView userFrom = (ImageView)findViewById(R.id.imageFrom);
         Picasso.with(this).load(mUserFrom.getUser_image()).into(userFrom);
-        mUser = (UserData)getIntent().getParcelableExtra(DialogsActivity.USER_DATA);
+        mUser = (UserData)getIntent().getParcelableExtra(FriendsActivity.USER_DATA);
         ImageView user = (ImageView)findViewById(R.id.imageUser);
         Picasso.with(this).load(mUser.getUser_image()).into(user);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
