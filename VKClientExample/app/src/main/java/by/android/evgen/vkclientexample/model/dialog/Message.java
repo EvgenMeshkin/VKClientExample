@@ -18,7 +18,7 @@ public class Message extends Model {
     public String out;
 
     @Column(name = "date")
-    public Date date;
+    public String date;
 
     @Column(name = "title")
     public String title;

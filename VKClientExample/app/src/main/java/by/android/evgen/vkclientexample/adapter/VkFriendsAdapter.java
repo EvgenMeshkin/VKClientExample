@@ -33,7 +33,7 @@ public class VkFriendsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 20) {
+        if (mData.get(position) == null) {
         return 1;
         } else {
             return super.getItemViewType(position);

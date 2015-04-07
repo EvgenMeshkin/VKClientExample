@@ -98,16 +98,18 @@ public class GetFriends implements ISpringCallback<Result> {
                 int totalItemCount = mLayoutManager.getItemCount();
                 int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
 
-                if (loading) {
-                    if (totalItemCount > previousTotal) {
-                        loading = false;
-                        previousTotal = totalItemCount;
-                    }
-                }
-                if (!loading && (totalItemCount - visibleItemCount)
+//                if (loading) {
+//                    if (totalItemCount > previousTotal) {
+//                        Log.d("**********************", "scroolItemCount" + totalItemCount);
+//                        loading = false;
+//                        previousTotal = totalItemCount;
+//                    }
+//                }
+                if (loading && (totalItemCount - visibleItemCount)
                         <= (firstVisibleItem + visibleThreshold)) {
+                    Log.d("**********************", "scrool");
                     mList.add(null);
-//                    mAdapter.notifyItemInserted(mList.size());
+                    mAdapter.notifyItemInserted(mList.size());
                     new SpringParser().executeInThread(new ISpringCallback<Result>() {
                         @Override
                         public void onDataLoadStart() {
@@ -117,21 +119,13 @@ public class GetFriends implements ISpringCallback<Result> {
                         @Override
                         public void onDone(Result data) {
                             Items[] dataArray = data.response.items;
-
-//                            if (data != null && data.size() == COUNT) {
-//                                isPagingEnabled = true;
-//                                listView.addFooterView(footerProgress, null, false);
-//                            } else {
-//                                isPagingEnabled = false;
-//                                listView.removeFooterView(footerProgress);
-//                            }
-//                            mList.remove(mList.size() - 1);
-//                            mAdapter.notifyItemRemoved(mList.size());
-                            if (data != null) {
-                                List<Items> newList = new ArrayList<Items>(Arrays.asList(dataArray));
-                                mList.addAll(newList);
-                            }
+                            int position = mList.size() - 1;
+                            mList.remove(position);
+                            mAdapter.notifyItemRemoved(position);
+                            List<Items> newList = new ArrayList<Items>(Arrays.asList(dataArray));
+                            mList.addAll(newList);
                             mAdapter.notifyDataSetChanged();
+                            loading = true;
                         }
 
                         @Override
@@ -140,7 +134,7 @@ public class GetFriends implements ISpringCallback<Result> {
                         }
                     }, VkOAuthHelper.sign(getUrl(COUNT, count)), Result.class);
 
-                    loading = true;
+                    loading = false;
                 }
 
             }

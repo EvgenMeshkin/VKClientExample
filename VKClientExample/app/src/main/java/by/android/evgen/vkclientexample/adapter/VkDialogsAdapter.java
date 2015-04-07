@@ -59,9 +59,9 @@ public class VkDialogsAdapter extends RecyclerView.Adapter<VkDialogsAdapter.View
         }
         viewHolder.content.setText(item.message.body);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm ");
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTimeInMillis(Long.parseLong(item.message.date)/1000);
-        viewHolder.online.setText(dateFormat.format(item.message.date));
+        Long timeInMillis = Long.valueOf(item.message.date);
+        Date date=new Date(timeInMillis * 1000);
+        viewHolder.online.setText(dateFormat.format(date));
         viewHolder.main.setTag(user);
     }
 
