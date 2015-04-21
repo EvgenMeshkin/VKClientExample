@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import by.android.evgen.vkclientexample.R;
 import by.android.evgen.vkclientexample.model.UserData;
@@ -47,8 +48,9 @@ public class VkHistoryAdapter extends RecyclerView.Adapter<VkHistoryAdapter.View
         Items item = mData[i];
         viewHolder.content.setText(item.body);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm ");
-        viewHolder.online.setText(dateFormat.format(item.date));
-        Log.d("*************************", mUser.getUser_id() + "*****" + item.from_id);
+        Long timeInMillis = Long.valueOf(item.date);
+        Date date=new Date(timeInMillis * 1000);
+        viewHolder.online.setText(dateFormat.format(date));
         if(mUser.getUser_id().contains(item.from_id)) {
             viewHolder.name.setText(mUser.getUser_name());
             final String urlImage = mUser.getUser_image();

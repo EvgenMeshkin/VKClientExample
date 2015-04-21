@@ -27,7 +27,7 @@ public class Items {
     public String from_id;
 
     @Column(name = "date")
-    public Date date;
+    public String date;
 
     @Column(name = "read_state")
     public String read_state;
