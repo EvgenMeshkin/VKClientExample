@@ -34,12 +34,10 @@ public class GetDialogs {
         this.mMainUserData = mMainUserData;
         this.mRecyclerViewDialogs = mRecyclerViewDialogs;
         this.mSwipeRefreshLayoutDialogs = mSwipeRefreshLayoutDialogs;
-        this.mUserDataDialogs = mUserDataDialogs;
         this.mContext = mContext;
         new SpringParser().executeInThread(new ISpringCallback<Result>() {
             @Override
             public void onDataLoadStart() {
-
             }
 
             @Override
@@ -63,7 +61,6 @@ public class GetDialogs {
                                 new RecyclerItemClickListener(mContext, new RecyclerItemClickListener.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(View view, int position) {
-                                        Log.d("******************", view.getTag().toString());
                                         Response user = (Response)view.getTag();
                                         mUserDataDialogs = new UserData(user.id, user.first_name, user.photo_200_orig);
                                         Intent intent = new Intent();

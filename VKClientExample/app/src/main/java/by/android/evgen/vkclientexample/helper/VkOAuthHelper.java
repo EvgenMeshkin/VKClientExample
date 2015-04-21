@@ -19,8 +19,7 @@ public class VkOAuthHelper {
 
     }
 
-    //TODO don't do it in your project
-    private static String sToken;
+    public static String sToken;
 
     public static final String REDIRECT_URL = "https://oauth.vk.com/blank.html";
     public static final String AUTORIZATION_URL = "https://oauth.vk.com/authorize?client_id=4840146&scope=offline,messages,wall,photos,status&redirect_uri=" + REDIRECT_URL + "&display=touch&response_type=token";
@@ -47,6 +46,7 @@ public class VkOAuthHelper {
             if (!TextUtils.isEmpty(accessToken)) {
                 Log.d(TAG, "token " + accessToken);
                 sToken = accessToken;
+                Log.d("***************************Token", accessToken);
                 callbacks.onSuccess();
                 return true;
             } else {

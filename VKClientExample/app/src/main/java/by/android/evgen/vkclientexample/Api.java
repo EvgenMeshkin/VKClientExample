@@ -13,6 +13,7 @@ public class Api {
     public static final String USER_GET = BASE_PATH_VK + "users.get?v=" + V_VK+ "&fields=photo_200_orig";
     public static final String HISTORY_GET = BASE_PATH_VK + "messages.getHistory?v=" + V_VK+ "&user_id=";
     public static final String MESSAGE_SEND = BASE_PATH_VK + "messages.send?v=" + V_VK+ "&message=";
+    public static final String REGISTER_DEVICE = BASE_PATH_VK + "account.registerDevice?v=" + V_VK+ "&token=";
 
     public static String getSendUrl(String id, String message) {
         return MESSAGE_SEND + message + "&user_id=" + id;

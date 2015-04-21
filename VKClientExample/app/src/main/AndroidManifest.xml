@@ -3,6 +3,13 @@
     package="by.android.evgen.vkclientexample" >
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+
+    <permission android:name="com.example.gcm.permission.C2D_MESSAGE"
+    android:protectionLevel="signature" />
+    <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE" />
+
     <application
         android:name=".SpringApplication"
         android:allowBackup="true"
@@ -18,6 +25,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".receivers.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="by.android.evgen.vkclientexample"/>
+            </intent-filter>
+        </receiver>
+        <service android:name=".service.GcmIntentService" />
         <activity
             android:name=".activity.VkLoginActivity"
             android:label="@string/app_name"/>

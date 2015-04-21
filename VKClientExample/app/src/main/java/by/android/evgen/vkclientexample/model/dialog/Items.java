@@ -33,6 +33,9 @@ public class Items {
     @Column(name = "online_mobile")
     public String online_mobile;
 
+    @Column(name = "unread")
+    public String unread;
+
     @Column(name = "lists")
     public String[] lists;
 
