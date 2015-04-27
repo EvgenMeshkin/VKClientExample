@@ -11,4 +11,8 @@ import com.activeandroid.annotation.Table;
 public class Users extends Model {
     @Column(name = "response")
     public Response[] response;
+
+    @Column(name = "error")
+    public String error;
+
 }

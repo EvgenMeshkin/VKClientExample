@@ -32,10 +32,7 @@ public class GcmIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Bundle extras = intent.getExtras();
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
-        // The getMessageType() intent parameter must be the intent you received
-        // in your BroadcastReceiver.
         String messageType = gcm.getMessageType(intent);
-
         if (!extras.isEmpty()) {  // has effect of unparcelling Bundle
             /*
              * Filter messages based on message type. Since it is likely that GCM
@@ -61,7 +58,6 @@ public class GcmIntentService extends IntentService {
                     } catch (InterruptedException e) {
                     }
                 }
-
                 // Post notification of received message.
                 sendNotification("Received: " + extras.toString());
             }
@@ -69,7 +65,6 @@ public class GcmIntentService extends IntentService {
         // Release the wake lock provided by the WakefulBroadcastReceiver.
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
-
     // Put the message into a notification and post it.
     // This is just one simple example of what you might choose to do with
     // a GCM message.
@@ -91,4 +86,5 @@ public class GcmIntentService extends IntentService {
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
+
 }

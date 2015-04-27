@@ -42,7 +42,6 @@ public class VkFriendsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        Log.d("**************creatview ", " " + i);
         if (i == 0) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_friends_adapter, viewGroup, false);
             return new ViewHolderMain(v);
@@ -61,16 +60,15 @@ public class VkFriendsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 ((ViewHolderMain) viewHolder).name.setText(item.first_name);
                 ((ViewHolderMain) viewHolder).content.setText(item.last_name);
                 if (item.online) {
-                    ((ViewHolderMain) viewHolder).online.setText("online");
+                    ((ViewHolderMain) viewHolder).online.setText(mContext.getString(R.string.online));
                 } else {
-                    ((ViewHolderMain) viewHolder).online.setText("offline");
+                    ((ViewHolderMain) viewHolder).online.setText(mContext.getString(R.string.offlaine));
                 }
                 final String urlImage = item.photo_200_orig;
                 Picasso.with(mContext).load(urlImage).into(((ViewHolderMain) viewHolder).icon);
                 viewHolder.itemView.setTag(item);
             }
         } else if (viewHolder instanceof ViewHolderFooter) {
-            Log.d("*********************", "progress");
             ((ViewHolderFooter) viewHolder).progressBar.setIndeterminate(true);
         }
     }

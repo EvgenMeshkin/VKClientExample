@@ -15,7 +15,6 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Intent serviceIntent = new Intent(context, GcmIntentService.class);
         serviceIntent.putExtras(intent.getExtras());
-
         startWakefulService(context, serviceIntent);
     }
 

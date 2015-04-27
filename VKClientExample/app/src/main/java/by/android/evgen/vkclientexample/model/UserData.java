@@ -30,7 +30,6 @@ public class UserData implements Parcelable {
         User_id = user_id;
         User_name = user_name;
         User_image = user_image;
-
     }
 
     @Override
@@ -47,7 +46,6 @@ public class UserData implements Parcelable {
     }
 
     public static final Parcelable.Creator<UserData> CREATOR = new Parcelable.Creator<UserData>() {
-        // распаковываем объект из Parcel
         public UserData createFromParcel(Parcel in) {
            return new UserData(in);
         }

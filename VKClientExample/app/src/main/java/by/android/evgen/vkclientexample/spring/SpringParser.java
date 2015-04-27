@@ -27,7 +27,6 @@ public class SpringParser {
                     RestTemplate restTemplate = new RestTemplate();
                     restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter);
                     String str = restTemplate.getForObject(url, String.class);
-                    Log.d("****************************", str);
                     final Object result = restTemplate.getForObject(url, clazz);
                     handler.post(new Runnable() {
                         @Override

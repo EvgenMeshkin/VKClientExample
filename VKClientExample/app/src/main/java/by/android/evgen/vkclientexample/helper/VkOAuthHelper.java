@@ -46,7 +46,6 @@ public class VkOAuthHelper {
             if (!TextUtils.isEmpty(accessToken)) {
                 Log.d(TAG, "token " + accessToken);
                 sToken = accessToken;
-                Log.d("***************************Token", accessToken);
                 callbacks.onSuccess();
                 return true;
             } else {
@@ -56,8 +55,6 @@ public class VkOAuthHelper {
                 if (!TextUtils.isEmpty(error)) {
                     callbacks.onError(new AuthenticationException(error+", reason : " + errorReason +"("+errorDescription+")"));
                     return false;
-                } else {
-                    //WTF?
                 }
             }
         }

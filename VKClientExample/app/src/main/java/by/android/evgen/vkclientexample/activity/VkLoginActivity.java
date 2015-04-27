@@ -70,11 +70,6 @@ public class VkLoginActivity extends ActionBarActivity implements VkOAuthHelper.
             view.setVisibility(View.INVISIBLE);
         }
 
-
-
-        /* (non-Javadoc)
-         * @see android.webkit.WebViewClient#shouldOverrideUrlLoading(android.webkit.WebView, java.lang.String)
-         */
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             Log.d(TAG, "overr " + url);
@@ -83,7 +78,6 @@ public class VkLoginActivity extends ActionBarActivity implements VkOAuthHelper.
                 view.setVisibility(View.INVISIBLE);
                 return true;
             } else {
-                //view.loadUrl(url);
                 return false;
             }
         }
@@ -92,7 +86,6 @@ public class VkLoginActivity extends ActionBarActivity implements VkOAuthHelper.
         public void onReceivedError(WebView view, int errorCode,
                                     String description, String failingUrl) {
             super.onReceivedError(view, errorCode, description, failingUrl);
-            //showProgress("Error: " + description);
             view.setVisibility(View.VISIBLE);
             dismissProgress();
             Log.d(TAG, "error " + failingUrl);
@@ -102,16 +95,8 @@ public class VkLoginActivity extends ActionBarActivity implements VkOAuthHelper.
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             Log.d(TAG, "finish " + url);
-         /*   if (url.contains("&amp;")) {
-                url = url.replace("&amp;", "&");
-                Log.d(TAG, "overr after replace " + url);
-                view.loadUrl(url);
-                return;
-            }*/
             view.setVisibility(View.VISIBLE);
-            //if (!VkOAuthHelper.proceedRedirectURL(VkLoginActivity.this, url, success)) {
             dismissProgress();
-            //}
         }
 
     }

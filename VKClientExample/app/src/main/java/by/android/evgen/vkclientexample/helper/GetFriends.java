@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -72,8 +71,7 @@ public class GetFriends implements ISpringCallback<Result> {
                 new RecyclerItemClickListener(mContext, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Log.d("**********************", view.getTag().toString());
-                        Items user = (Items)view.getTag();
+                        Items user = (Items) view.getTag();
                         mUserData = new UserData(user.id, user.first_name, user.photo_200_orig);
                         Intent intent = new Intent();
                         intent.setClass(mContext, MessageActivity.class);
@@ -97,17 +95,8 @@ public class GetFriends implements ISpringCallback<Result> {
                 int count = mAdapter.getItemCount();
                 int totalItemCount = mLayoutManager.getItemCount();
                 int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
-
-//                if (loading) {
-//                    if (totalItemCount > previousTotal) {
-//                        Log.d("**********************", "scroolItemCount" + totalItemCount);
-//                        loading = false;
-//                        previousTotal = totalItemCount;
-//                    }
-//                }
                 if (loading && (totalItemCount - visibleItemCount)
                         <= (firstVisibleItem + visibleThreshold)) {
-                    Log.d("**********************", "scrool");
                     mList.add(null);
                     mAdapter.notifyItemInserted(mList.size());
                     new SpringParser().executeInThread(new ISpringCallback<Result>() {
@@ -151,7 +140,7 @@ public class GetFriends implements ISpringCallback<Result> {
     }
 
     private String getUrl(int count, int offset) {
-        return Api.FRIENDS_GET + "&count="+count+"&offset="+offset;
+        return Api.FRIENDS_GET + "&count=" + count + "&offset=" + offset;
     }
 
 }

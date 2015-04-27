@@ -1,7 +1,6 @@
 package by.android.evgen.vkclientexample.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -12,7 +11,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.TabHost;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -20,20 +18,13 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import by.android.evgen.vkclientexample.Api;
 import by.android.evgen.vkclientexample.R;
-import by.android.evgen.vkclientexample.adapter.VkDialogsAdapter;
 import by.android.evgen.vkclientexample.helper.GetDialogs;
 import by.android.evgen.vkclientexample.helper.GetFriends;
 import by.android.evgen.vkclientexample.helper.VkOAuthHelper;
-import by.android.evgen.vkclientexample.adapter.VkFriendsAdapter;
-import by.android.evgen.vkclientexample.listener.RecyclerItemClickListener;
 import by.android.evgen.vkclientexample.model.UserData;
-import by.android.evgen.vkclientexample.model.dialog.Items;
-import by.android.evgen.vkclientexample.model.dialog.Result;
-import by.android.evgen.vkclientexample.model.users.Response;
 import by.android.evgen.vkclientexample.model.users.Users;
 import by.android.evgen.vkclientexample.spring.ISpringCallback;
 import by.android.evgen.vkclientexample.spring.SpringParser;
@@ -43,22 +34,20 @@ import by.android.evgen.vkclientexample.spring.SpringParser;
  */
 public class FriendsActivity extends ActionBarActivity {
 
-    public static final String EXTRA_MESSAGE = "message";
+    public static final String TAG = FriendsActivity.class.getSimpleName();
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final String EMPTY = "";
     String SENDER_ID = "89313241901";
 
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     public static final String USER_DATA = "user_data";
-    private UserData mUserData;
     private UserData mMainUserData;
     private RecyclerView mRecyclerViewDialogs;
     private SwipeRefreshLayout mSwipeRefreshLayoutDialogs;
-    private UserData mUserDataDialogs;
     GoogleCloudMessaging gcm;
-    AtomicInteger msgId = new AtomicInteger();
     String regid;
 
     @Override
@@ -71,13 +60,13 @@ public class FriendsActivity extends ActionBarActivity {
 
         TabHost tabs = (TabHost) findViewById(R.id.tabHost);
         tabs.setup();
-        TabHost.TabSpec spec = tabs.newTabSpec("tag1");
+        TabHost.TabSpec spec = tabs.newTabSpec(getString(R.string.tagoune));
         spec.setContent(R.id.tab1);
-        spec.setIndicator("Friends");
+        spec.setIndicator(getString(R.string.friends));
         tabs.addTab(spec);
-        spec = tabs.newTabSpec("tag2");
+        spec = tabs.newTabSpec(getString(R.string.tagTwo));
         spec.setContent(R.id.tab2);
-        spec.setIndicator("Dialogs");
+        spec.setIndicator(getString(R.string.dialogs));
         tabs.addTab(spec);
         tabs.setCurrentTab(0);
 
@@ -122,8 +111,6 @@ public class FriendsActivity extends ActionBarActivity {
             }
         }, VkOAuthHelper.sign(Api.USER_GET), Users.class);
 
-
-
         // Check device for Play Services APK. If check succeeds, proceed with GCM registration.
         if (checkPlayServices()) {
             gcm = GoogleCloudMessaging.getInstance(this);
@@ -143,7 +130,7 @@ public class FriendsActivity extends ActionBarActivity {
                 GooglePlayServicesUtil.getErrorDialog(resultCode, this,
                         PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
-                Log.i("*******", "This device is not supported.");
+                Log.i(TAG, "This device is not supported.");
                 finish();
             }
             return false;
@@ -153,10 +140,10 @@ public class FriendsActivity extends ActionBarActivity {
 
     private String getRegistrationId(Context context) {
         final SharedPreferences prefs = getGcmPreferences(context);
-        String registrationId = prefs.getString(PROPERTY_REG_ID, "");
+        String registrationId = prefs.getString(PROPERTY_REG_ID, EMPTY);
         if (registrationId.isEmpty()) {
-            Log.i("*********", "Registration not found.");
-            return "";
+            Log.i(TAG, "Registration not found.");
+            return EMPTY;
         }
         // Check if app was updated; if so, it must clear the registration ID
         // since the existing regID is not guaranteed to work with the new
@@ -164,8 +151,8 @@ public class FriendsActivity extends ActionBarActivity {
         int registeredVersion = prefs.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
         int currentVersion = getAppVersion(context);
         if (registeredVersion != currentVersion) {
-            Log.i("******", "App version changed.");
-            return "";
+            Log.i(TAG, "App version changed.");
+            return EMPTY;
         }
         return registrationId;
     }
@@ -181,7 +168,7 @@ public class FriendsActivity extends ActionBarActivity {
         }
     }
 
-   private SharedPreferences getGcmPreferences(Context context) {
+    private SharedPreferences getGcmPreferences(Context context) {
         // This sample app persists the registration ID in shared preferences, but
         // how you store the regID in your app is up to you.
         return getSharedPreferences(FriendsActivity.class.getSimpleName(),
@@ -200,8 +187,8 @@ public class FriendsActivity extends ActionBarActivity {
                     regid = gcm.register(SENDER_ID);
                     msg = "Device registered, registration ID=" + regid;
 
-                   sendRegistrationIdToBackend();
-                   storeRegistrationId(FriendsActivity.this, regid);
+                    sendRegistrationIdToBackend();
+                    storeRegistrationId(FriendsActivity.this, regid);
                 } catch (IOException ex) {
                     msg = "Error :" + ex.getMessage();
                 }
@@ -210,7 +197,7 @@ public class FriendsActivity extends ActionBarActivity {
 
             @Override
             protected void onPostExecute(String msg) {
-                Log.i("******", "GOOD");
+                Log.i(TAG, "GOOD");
             }
         }.execute(null, null, null);
     }
@@ -218,7 +205,7 @@ public class FriendsActivity extends ActionBarActivity {
     private void storeRegistrationId(Context context, String regId) {
         final SharedPreferences prefs = getGcmPreferences(context);
         int appVersion = getAppVersion(context);
-        Log.i("***********", "Saving regId on app version " + appVersion);
+        Log.i(TAG, "Saving regId on app version " + appVersion);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(PROPERTY_REG_ID, regId);
         editor.putInt(PROPERTY_APP_VERSION, appVersion);
