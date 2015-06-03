@@ -27,7 +27,6 @@ public class VkLoginActivity extends ActionBarActivity implements VkOAuthHelper.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vk_login);
-        getSupportActionBar().hide();
         mWebView = (WebView) findViewById(R.id.webView);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);

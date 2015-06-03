@@ -32,6 +32,7 @@
         android:layout_height="wrap_content"
         android:textColor="#727272"
         android:layout_marginLeft="72dip"
+        android:maxLines="3"
         android:layout_below="@android:id/title"/>
     <TextView
         android:id="@+id/online"

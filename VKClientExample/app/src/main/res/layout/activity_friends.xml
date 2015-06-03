@@ -2,76 +2,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-     >
+    android:orientation="vertical">
 
-    <TabHost
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/awesome_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tabHost">
+        android:background="@color/blue"
+        android:elevation="3dp"
+        android:minHeight="?attr/actionBarSize" />
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical">
+    <by.android.evgen.vkclientexample.view.SlidingTabLayout
+        android:id="@+id/sliding_tabs"
+        android:layout_width="match_parent"
+        android:background="@color/blue"
+        android:layout_height="wrap_content" />
 
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"></TabWidget>
-
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
-                <LinearLayout
-                    android:id="@+id/tab1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical">
-
-                    <android.support.v4.widget.SwipeRefreshLayout
-                        android:id="@+id/swipe_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_below="@android:id/title">
-                        <android.support.v7.widget.RecyclerView
-                            android:layout_width="fill_parent"
-                            android:layout_height="match_parent"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:focusableInTouchMode="true"
-                            android:id="@+id/friends_view" />
-                    </android.support.v4.widget.SwipeRefreshLayout>
-
-                    </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/tab2"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical">
-
-                    <android.support.v4.widget.SwipeRefreshLayout
-                        android:id="@+id/dialog_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_below="@android:id/title">
-                        <android.support.v7.widget.RecyclerView
-                            android:layout_width="fill_parent"
-                            android:layout_height="match_parent"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:focusableInTouchMode="true"
-                            android:id="@+id/dialogs_view" />
-                    </android.support.v4.widget.SwipeRefreshLayout>
-
-                    </LinearLayout>
-
-            </FrameLayout>
-        </LinearLayout>
-    </TabHost>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:background="@android:color/white" />
 
 
 </LinearLayout>

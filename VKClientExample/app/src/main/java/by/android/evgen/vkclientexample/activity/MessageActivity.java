@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -40,6 +41,8 @@ public class MessageActivity extends ActionBarActivity implements ISpringCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.awesome_toolbar);
+        setSupportActionBar(toolbar);
         mUserFrom = (UserData)this.getIntent().getParcelableExtra(USER_ID);
         mRecyclerView = (RecyclerView)findViewById(R.id.friends_view);
         ImageView userFrom = (ImageView)findViewById(R.id.imageFrom);
@@ -53,11 +56,11 @@ public class MessageActivity extends ActionBarActivity implements ISpringCallbac
         mEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                String editMessage = mEdit.getText().toString();
+               /* String editMessage = mEdit.getText().toString();
                 if (!TextUtils.isEmpty(editMessage)) {
                     sendMessage(editMessage);
                     return true;
-                }
+                }*/
                 return false;
             }
         });
@@ -91,6 +94,7 @@ public class MessageActivity extends ActionBarActivity implements ISpringCallbac
         String editMessage = mEdit.getText().toString();
         if (!TextUtils.isEmpty(editMessage)) {
            sendMessage(editMessage);
+            mEdit.setText("");
         }
     }
 

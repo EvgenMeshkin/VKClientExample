@@ -58,7 +58,7 @@ public class VkDialogsAdapter extends RecyclerView.Adapter<VkDialogsAdapter.View
             Picasso.with(mContext).load(urlImage).into(viewHolder.icon);
         }
         viewHolder.content.setText(item.message.body);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm ");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM");
         Long timeInMillis = Long.valueOf(item.message.date);
         Date date=new Date(timeInMillis * 1000);
         viewHolder.online.setText(dateFormat.format(date));

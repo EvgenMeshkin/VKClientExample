@@ -7,7 +7,7 @@ public class Api {
 
     public static final String BASE_PATH_VK = "https://api.vk.com/method/";
     public static final String V_VK = "5.28";
-    public static final String FRIENDS_GET = BASE_PATH_VK + "friends.get?order=name&fields=photo_200_orig, online&v=" + V_VK;
+    public static final String FRIENDS_GET = BASE_PATH_VK + "friends.get?order=hints&fields=photo_200_orig, online&v=" + V_VK;
     public static final String DIALOG_GET = BASE_PATH_VK + "messages.getDialogs?v=" + V_VK;
     public static final String USERS_GET = BASE_PATH_VK + "users.get?v=" + V_VK+ "&fields=photo_200_orig&user_ids=";
     public static final String USER_GET = BASE_PATH_VK + "users.get?v=" + V_VK+ "&fields=photo_200_orig";

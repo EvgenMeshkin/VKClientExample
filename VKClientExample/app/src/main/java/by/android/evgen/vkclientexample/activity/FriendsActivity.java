@@ -4,12 +4,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.TabHost;
 
@@ -18,9 +23,14 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import by.android.evgen.vkclientexample.Api;
 import by.android.evgen.vkclientexample.R;
+import by.android.evgen.vkclientexample.adapter.FragmentPagerSheduleAdapter;
+import by.android.evgen.vkclientexample.fragment.DialogFragment;
+import by.android.evgen.vkclientexample.fragment.FriendsFragment;
 import by.android.evgen.vkclientexample.helper.GetDialogs;
 import by.android.evgen.vkclientexample.helper.GetFriends;
 import by.android.evgen.vkclientexample.helper.VkOAuthHelper;
@@ -28,11 +38,12 @@ import by.android.evgen.vkclientexample.model.UserData;
 import by.android.evgen.vkclientexample.model.users.Users;
 import by.android.evgen.vkclientexample.spring.ISpringCallback;
 import by.android.evgen.vkclientexample.spring.SpringParser;
+import by.android.evgen.vkclientexample.view.SlidingTabLayout;
 
 /**
  * Created by evgen on 25.03.2015.
  */
-public class FriendsActivity extends ActionBarActivity {
+public class FriendsActivity extends AppCompatActivity {
 
     public static final String TAG = FriendsActivity.class.getSimpleName();
     public static final String PROPERTY_REG_ID = "registration_id";
@@ -49,12 +60,50 @@ public class FriendsActivity extends ActionBarActivity {
     private SwipeRefreshLayout mSwipeRefreshLayoutDialogs;
     GoogleCloudMessaging gcm;
     String regid;
+    private ViewPager mViewPager;
+    private SlidingTabLayout mSlidingTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
-        mRecyclerView = (RecyclerView) findViewById(R.id.friends_view);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.awesome_toolbar);
+        setSupportActionBar(toolbar);
+
+        List<Fragment> mTabs = new ArrayList<>();
+        mTabs.add(new FriendsFragment());
+        mTabs.add(new DialogFragment());
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mViewPager.setAdapter(new FragmentPagerSheduleAdapter(getSupportFragmentManager(), mTabs));
+        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
+        mSlidingTabLayout.setViewPager(mViewPager);
+        mSlidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+
+            @Override
+            public int getIndicatorColor(int position) {
+                return Color.WHITE;
+            }
+
+            @Override
+            public int getDividerColor(int position) {
+                return Color.WHITE;
+            }
+
+        });
+
+
+    }
+
+
+
+
+
+
+
+
+
+        /*mRecyclerView = (RecyclerView) findViewById(R.id.friends_view);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
 
@@ -214,6 +263,6 @@ public class FriendsActivity extends ActionBarActivity {
 
     private void sendRegistrationIdToBackend() {
         // Your implementation here.
-    }
+    }*/
 
 }

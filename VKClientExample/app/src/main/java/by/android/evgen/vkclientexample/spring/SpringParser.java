@@ -26,7 +26,6 @@ public class SpringParser {
                     mappingJackson2HttpMessageConverter.setSupportedMediaTypes(Arrays.asList(new MediaType("json", "text", MappingJackson2HttpMessageConverter.DEFAULT_CHARSET)));
                     RestTemplate restTemplate = new RestTemplate();
                     restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter);
-                    String str = restTemplate.getForObject(url, String.class);
                     final Object result = restTemplate.getForObject(url, clazz);
                     handler.post(new Runnable() {
                         @Override
