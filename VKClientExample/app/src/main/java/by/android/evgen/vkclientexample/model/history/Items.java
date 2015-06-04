@@ -44,6 +44,9 @@ public class Items {
     @Column(name = "message")
     public Message message;
 
+    @Column(name = "emoji")
+    public String emoji;
+
     @JsonIgnoreProperties(ignoreUnknown = true)
     @Column(name = "attachments")
     public by.android.evgen.vkclientexample.model.dialog.Attachments[] attachments;

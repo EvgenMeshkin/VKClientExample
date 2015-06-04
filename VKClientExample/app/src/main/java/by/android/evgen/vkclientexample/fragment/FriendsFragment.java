@@ -50,22 +50,6 @@ public class FriendsFragment extends Fragment {
                 Users user = (Users) dataUser;
                 mMainUserData = new UserData(user.response[0].id, user.response[0].first_name, user.response[0].photo_200_orig);
                 new GetFriends(getActivity(), mRecyclerView, mSwipeRefreshLayout, mMainUserData, layoutManager);
-
-                new SpringParser().executeInThread(new ISpringCallback() {
-                    @Override
-                    public void onDataLoadStart() {
-                    }
-
-                    @Override
-                    public void onDone(Object dataUser) {
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-
-                    }
-                }, VkOAuthHelper.sign(Api.REGISTER_DEVICE + VkOAuthHelper.sToken), String.class);
-
             }
 
             @Override

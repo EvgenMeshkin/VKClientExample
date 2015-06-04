@@ -70,7 +70,7 @@ public class VkHistoryAdapter extends RecyclerView.Adapter<VkHistoryAdapter.View
         Long timeInMillis = Long.valueOf(item.date);
         Date date=new Date(timeInMillis * 1000);
         viewHolder.online.setText(dateFormat.format(date));
-        if(mUser.getUser_id().contains(item.from_id)) {
+       /* if(mUser.getUser_id().contains(item.from_id)) {
             viewHolder.name.setText(mUser.getUser_name());
             final String urlImage = mUser.getUser_image();
             Picasso.with(mContext).load(urlImage).into(viewHolder.icon);
@@ -78,7 +78,7 @@ public class VkHistoryAdapter extends RecyclerView.Adapter<VkHistoryAdapter.View
             viewHolder.name.setText(mUserFrom.getUser_name());
             final String urlImage = mUserFrom.getUser_image();
             Picasso.with(mContext).load(urlImage).into(viewHolder.icon);
-        }
+        }*/
     }
 
     @Override
@@ -100,7 +100,7 @@ public class VkHistoryAdapter extends RecyclerView.Adapter<VkHistoryAdapter.View
             content = (TextView) itemView.findViewById(android.R.id.content);
             newContent = (TextView) itemView.findViewById(R.id.new_content);
             online = (TextView) itemView.findViewById(R.id.online);
-            icon = (ImageView) itemView.findViewById(android.R.id.icon);
+//            icon = (ImageView) itemView.findViewById(android.R.id.icon);
         }
     }
 
